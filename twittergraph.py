@@ -11,9 +11,9 @@ n_edges = orc_list.shape[0]
 print("Number of edges:", n_edges)
 
 # network settings # IMPORTANT
-springLength = 20 # default length of edges
+springLength = 50 # default length of edges
 springConstant = 0.001 # decrease for less power pushing nodes away from one another
-minVelocity = 20 # the velocity of moving nodes that has to be reached to stabilize
+minVelocity = 30 # the velocity of moving nodes that has to be reached to stabilize
 
 # create graph (networkx -> pyvis)
 nx_graph = nx.Graph()
@@ -47,6 +47,7 @@ options = """
             "stabilization": {
                 "enabled": true,
                 "iterations": 100,
+                "updateInterval": 20,
                 "fit": true
             }
         }
