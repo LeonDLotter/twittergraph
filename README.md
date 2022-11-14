@@ -13,8 +13,8 @@ License: [CC0](https://creativecommons.org/share-your-work/public-domain/cc0/)
 You can find me at [Twitter](https://twitter.com/LeonDLotter) and [Mastodon](https://fediscience.org/@LeondLotter).
 
 ### The network
-<img src="graph.png">
+<img src="graph.png" style="background-color:white">
 
 ### The edge-contest winner
-<img src="graph_selected.png">
+<img src="graph_selected.png" style="background-color:white">
 

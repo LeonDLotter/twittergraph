@@ -14,7 +14,6 @@ dist/
 downloads/
 eggs/
 .eggs/
-lib/
 lib64/
 parts/
 sdist/
@@ -79,24 +78,6 @@ venv/
 ENV/
 env.bak/
 venv.bak/
-
-# Notes
-notes.md
-
-# Rope project settings
-.ropeproject
-
-# mkdocs documentation
-/site
-
-# mypy
-.mypy_cache/
-.dmypy.json
-dmypy.json
-
-# Pyre type checker
-.pyre/
-data/context/gcea/GCEA_ale_z_GO_BP.mat
 
 # VSC
 .vscode/*
