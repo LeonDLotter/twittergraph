@@ -4,7 +4,7 @@ As of Elmos takeover of Twitter, John Beatty ([Twitter](https://twitter.com/john
 
 I spontaneously wrote some Python code that creates an interactive network visualization from the OpenCheck data. You can search for your own ORCID ID in the top menu and when you hover over nodes, a link to the respective ORCID page pops up. The network might take some time to load. Especially when you recreate it, there might be a lot more nodes and edges. As of the commit, the network consisted of 641 users with 4995 connections between them. 
 
-### *[TO THE NETWORK](https://leonlotter.de/twittergraph/graph.html)*
+### *[TO THE NETWORK](http://leonlotter.de/twittergraph/graph.html)*
 
 Data source: [OpenCheck](https://opencheck.is/scitwitter)   
 Code Package: [pyvis](https://pyvis.readthedocs.io/) based on [visjs](https://visjs.org/)  
