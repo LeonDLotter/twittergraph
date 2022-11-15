@@ -1,5 +1,9 @@
 # A network visualization generated from the Science Twitter Graph
 
+
+[![DOI](https://zenodo.org/badge/565786825.svg)](https://zenodo.org/badge/latestdoi/565786825)
+
+
 As of Elmos takeover of Twitter, John Beatty ([Twitter](https://twitter.com/john_d_beatty), [Mastodon](https://social.coop/@beatty)) started to collect the ORCID handles and followings of researchers on Twitter to preserve the "Science Twitter Graph".  
 
 I spontaneously wrote some Python code that creates an interactive network visualization from the OpenCheck data. You can search for your own ORCID ID in the top menu and when you hover over nodes, a link to the respective ORCID page pops up. In the beginning I rendered it with "live" physics. After it got to big, I switched to the Fruchterman-Reingold algorithm.
