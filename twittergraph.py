@@ -4,68 +4,78 @@
 import pandas as pd
 import networkx as nx
 from pyvis.network import Network
+import igraph as ig
+import numpy as np
 
-# download orcid list
+# download orcid data
 orc_list = pd.read_csv("https://opencheck.is/scitwitter/orcidgraph", header=None)
-n_edges = orc_list.shape[0]
-print("Number of edges:", n_edges)
 
-# network settings # IMPORTANT
-springLength = 50 # default length of edges
-springConstant = 0.001 # decrease for less power pushing nodes away from one another
-minVelocity = 30 # the velocity of moving nodes that has to be reached to stabilize
-
-# create graph (networkx -> pyvis)
+# create graph (networkx because the easiest)
 nx_graph = nx.Graph()
-nx_graph.add_edges_from([tuple(orc_list.iloc[i,:]) for i in range(n_edges)])
-pv_graph = Network(height="700px", width="100%", select_menu=True)
-pv_graph.from_nx(nx_graph)
-print("Number of nodes:", len(pv_graph.get_nodes()))
+nx_graph.add_edges_from(orc_list.to_numpy())
+n_edges = nx_graph.number_of_edges()
+n_nodes = nx_graph.number_of_nodes()
+print("Number of edges:", n_edges)
+print("Number of nodes:", n_nodes)
 
-# layout
-options = """
+# estimate layout (igraph because fast)
+ig_graph = ig.Graph.from_networkx(nx_graph)
+layout = ig_graph.layout("fr")
+layout_factor = 1000 # factor to multiply the node positions with (maybe adjust with more nodes)
+
+# convert to pyvis graph (because nice HTML plotting)
+pv_graph = Network(height="600px", width="100%", select_menu=True, bgcolor="#000e1e")
+pv_graph.from_nx(nx_graph)
+# global layout
+pv_layout = """
     const options = {
         "nodes": {
+            "scaling": {
+                "min": 10,
+                "max": 60
+            },
             "color": {
                 "border": "rgb(43, 124, 233, 1)",
                 "background": "rgb(160, 198, 247)"
+            },
+            "font": {
+                "color": "rgba(255, 255, 255, 0.8)"
             }
         },
         "edges": {
             "color": {
-                "color": "rgb(43, 124, 233, 0.5)",
-                "opacity": 0.3,
-                "highlight": "darkred"  
+                "color": "rgba(43, 124, 233, 0.2)",
+                "highlight": "rgba(139, 0, 0, 1)"  
+            },
+            "smooth": {
+                "type": "continuous",
+                "roundness": 0.75
             }
         },
         "physics": {
-            "barnesHut": {
-                "springLength": %f,
-                "springConstant": %f
-            },
-            "minVelocity": %f,
-            "stabilization": {
-                "enabled": true,
-                "iterations": 100,
-                "updateInterval": 20,
-                "fit": true
-            }
+            "enabled": false
         }
     }
-    """ % (springLength, springConstant, minVelocity)
-pv_graph.set_options(options)
+    """
+pv_graph.set_options(pv_layout)
 
-# node size by connection number
-for node in pv_graph.get_nodes():
-    pv_graph.get_node(node)["value"] = nx_graph.degree()[node]
-    pv_graph.get_node(node)["title"] = f'<a href=https://orcid.org/{node}>{node}</a>'
+# specific layout
+for i, node in enumerate(pv_graph.get_nodes()):
+    # position from igraph
+    pv_graph.get_node(node)["x"] = layout.coords[i][0] * layout_factor
+    pv_graph.get_node(node)["y"] = layout.coords[i][1] * layout_factor
+    # node size
+    degree = nx_graph.degree()[node]
+    pv_graph.get_node(node)["value"] = degree
+    # hover information
+    pv_graph.get_node(node)["title"] = f'<a href=https://orcid.org/{node}>{node}</a><br>{degree} edges'
+    # color when selected
     pv_graph.get_node(node)["color"] = {
         "highlight": {
             "border": 'darkred',
             "background": 'red'
         }
     }
-#pv_graph.show_buttons(filter_=['physics'])
 
 # save as HTML
 pv_graph.show('graph.html')
