@@ -4,7 +4,7 @@
 import pandas as pd
 import networkx as nx
 from pyvis.network import Network
-import igraph as ig
+from igraph import Graph
 import numpy as np
 
 # download orcid data
@@ -19,7 +19,7 @@ print("Number of edges:", n_edges)
 print("Number of nodes:", n_nodes)
 
 # estimate layout (igraph because fast)
-ig_graph = ig.Graph.from_networkx(nx_graph)
+ig_graph = Graph.from_networkx(nx_graph)
 layout = ig_graph.layout("fr")
 layout_factor = 1000 # factor to multiply the node positions with (maybe adjust with more nodes)
 
@@ -68,7 +68,7 @@ for i, node in enumerate(pv_graph.get_nodes()):
     degree = nx_graph.degree()[node]
     pv_graph.get_node(node)["value"] = degree
     # hover information
-    pv_graph.get_node(node)["title"] = f'<a href=https://orcid.org/{node}>{node}</a><br>{degree} edges'
+    pv_graph.get_node(node)["title"] = f'<a href=https://orcid.org/{node} target="_parent">{node}</a><br>{degree} edges'
     # color when selected
     pv_graph.get_node(node)["color"] = {
         "highlight": {
