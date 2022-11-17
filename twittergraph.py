@@ -5,7 +5,8 @@ import pandas as pd
 import networkx as nx
 from pyvis.network import Network
 from igraph import Graph
-import numpy as np
+from matplotlib.cm import get_cmap
+from matplotlib.colors import rgb2hex
 
 # download orcid data
 orc_list = pd.read_csv("https://opencheck.is/scitwitter/orcidgraph", header=None)
@@ -21,10 +22,10 @@ print("Number of nodes:", n_nodes)
 # estimate layout (igraph because fast)
 ig_graph = Graph.from_networkx(nx_graph)
 layout = ig_graph.layout("fr")
-layout_factor = 1000 # factor to multiply the node positions with (maybe adjust with more nodes)
+layout_factor = 1200 # factor to multiply the node positions with (maybe adjust with more nodes)
 
 # convert to pyvis graph (because nice HTML plotting)
-pv_graph = Network(height="600px", width="100%", select_menu=True, bgcolor="#000e1e")
+pv_graph = Network(height="700px", width="100%", select_menu=True, bgcolor="#000e1e")
 pv_graph.from_nx(nx_graph)
 # global layout
 pv_layout = """
@@ -76,6 +77,19 @@ for i, node in enumerate(pv_graph.get_nodes()):
             "background": 'red'
         }
     }
+
+# colored communites
+#communities = nx.algorithms.community.louvain_communities(nx_graph)
+#comm_colors = get_cmap("tab20").colors
+#comm_colors = [rgb2hex(c) for c in comm_colors]
+#i = 0
+#for comm in communities:
+#    for node in list(comm):
+#        pv_graph.get_node(node)["color"] = {
+#            "border": comm_colors[i],
+#            "background": comm_colors[i+1]
+#        }
+#    i += 2
 
 # save as HTML
 pv_graph.show('graph.html')
