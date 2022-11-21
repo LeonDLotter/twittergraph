@@ -11,7 +11,7 @@ I spontaneously wrote some Python code that creates an interactive network visua
 First commit: 641 nodes with 4995 edges.  
 2 hours later: 859 nodes with 7922 edges.  
 6 hours later: 1143 nodes with 12536 edges.  
-24 hours later: 1652 nodes with 17235 edges.w
+24 hours later: 1652 nodes with 17235 edges.  
 ...
 
 ### *[TO THE NETWORK](http://leonlotter.de/twittergraph/)*
